@@ -5,7 +5,7 @@ const setlist = [
 ]
 
 for (var song of setlist) {
-  var songUrl = `{header}{song}.js`;
+  var songUrl = `${header}${song}.js`;
   var tag = document.createElement("script");
   tag.src = songUrl;
   document.body.appendChild(tag);
