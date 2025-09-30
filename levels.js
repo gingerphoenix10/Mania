@@ -1,6 +1,9 @@
 const ghProxy = "https://cdn.jsdelivr.net/gh/gingerphoenix10/Mania@main/";
 
 const setlist = [
+  "Clinozoisite",
+  "Hello (BPM) 2024",
+  "Aegleseeker",
   "Supernovae",
   "Soulless 5"
 ];
