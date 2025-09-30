@@ -1,7 +1,8 @@
 const header = "https://cdn.jsdelivr.net/gh/gingerphoenix10/Mania@main/"
 
 const setlist = [
-  "Supernovae"
+  "Supernovae",
+  "Soulless5"
 ]
 
 for (var song of setlist) {
