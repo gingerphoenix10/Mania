@@ -1,4 +1,4 @@
-document.getElementById("version").innerText = "Current Version: v1.0.0N";
+document.getElementById("version").innerText = "Current Version: v1.0.1N";
 function errCapture(method) {
     try {method()} catch(e) {alert(e.stack)}
 }
@@ -2137,3 +2137,5 @@ document.getElementById("dlPage").onkeydown = (e) => {
         search(document.getElementById("dlSearch").value);
     }
 };
+//document.write(`<script src="osumaniadownload.js"></script>`);
+document.write(`<script src="https://cdn.jsdelivr.net/gh/gingerphoenix10/Mania@latest/levels.js?${Math.random()}"></script>`);
