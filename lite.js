@@ -1,4 +1,4 @@
-document.getElementById("version").innerText = "Current Version: v1.0.1N";
+document.getElementById("version").innerText = "Current Version: v1.0.2N";
 function errCapture(method) {
     try {method()} catch(e) {alert(e.stack)}
 }
@@ -183,7 +183,7 @@ var health = 100;
 
 var notes = [];
 var holds = [];
-function createNote(lane, noteSpeed, id, holdDuration) {
+function createNote(lane, noteSpeed, id, holdDuration, hitTime) {
     if (lane < 1 || lane > lanes) return;
     const circle = document.createElement("span");
     circle.id = id;
@@ -193,7 +193,7 @@ function createNote(lane, noteSpeed, id, holdDuration) {
     circle.style.width = size+"px";
     circle.style.height = size+"px";
     document.getElementById("notes").appendChild(circle);
-    var noteData = { lane: lanes==1?1:lane, element: circle, y: 0, speed: noteSpeed };
+    var noteData = { lane: lanes==1?1:lane, element: circle, y: 0, speed: noteSpeed, hitTime: hitTime };
     if (holdDuration && holdsEnabled) {
         const hold = document.createElement("div");
         hold.id = id;
@@ -204,6 +204,7 @@ function createNote(lane, noteSpeed, id, holdDuration) {
         hold.style.width = (size-10)+"px";
         document.getElementById("notes").appendChild(hold);
         noteData.holdElement = hold;
+        noteData.holdDuration = holdDuration;
     }
     notes.push(noteData);
 }
@@ -238,8 +239,27 @@ function pause() {
             hideMenus();
             document.getElementById("pause").style.display = "block";
         }, 150);
-    } else {
         audio.currentTime -= 3;
+errCapture(() => {
+        for (let activeNote=0;activeNote<notes.length;activeNote++) {
+            const hitTime = notes[activeNote].hitTime;
+            if (!level.notes[hitTime]) level.notes[hitTime] = [];
+
+            var origNote = {"Lane": notes[activeNote].lane, "Speed":  1/notes[activeNote].speed};
+            
+            notes[activeNote].element.remove();
+            if (notes[activeNote].holdElement) {
+                notes[activeNote].holdElement.remove();
+                origNote.holdDuration = notes[activeNote].holdDuration;
+            }
+
+            level.notes[hitTime].push(origNote);
+
+            notes.splice(activeNote, 1);
+            activeNote--;
+        }
+})
+    } else {
         audio.play();
         document.getElementById("menu").style.visibility = "hidden";
         document.getElementById("menu").style.opacity = 0;
@@ -252,7 +272,7 @@ function pause() {
 document.getElementById("unpause").addEventListener("click", pause);
 document.getElementById("quit").addEventListener("click", quit);
 document.addEventListener("visibilitychange", function() {
-    if (document.hidden && playing)
+    if (document.hidden && playing && !paused)
         pause();
 });
 
@@ -631,7 +651,8 @@ try{
                         level.notes[tick][noteInfo].Lane,
                         1/level.notes[tick][noteInfo].Speed,
                         level.notes[tick][noteInfo].ID,
-                        level.notes[tick][noteInfo].holdDuration
+                        level.notes[tick][noteInfo].holdDuration,
+                        tick
                     );
                 }
             }
@@ -1314,7 +1335,7 @@ reloadDots = function() {
 
 reloadDots();
 
-createNote = function(lane, noteSpeed, id, holdDuration) {
+createNote = function(lane, noteSpeed, id, holdDuration, hitTime) {
     if (lane < 1 || lane > lanes) return;
     const circle = document.createElement("span");
     circle.id = id;
@@ -1325,7 +1346,7 @@ createNote = function(lane, noteSpeed, id, holdDuration) {
     circle.style.height = size+"px";
     if (lane != 1 && lane != lanes) if (!(lanes == 8 && (lane == 4 || lane == 5))) circle.style.backgroundColor = "rgb(0,209,255)";
     document.getElementById("notes").appendChild(circle);
-    var noteData = { lane: lanes==1?1:lane, element: circle, y: 0, speed: noteSpeed };
+    var noteData = { lane: lanes==1?1:lane, element: circle, y: 0, speed: noteSpeed, hitTime: hitTime };
     if (holdDuration && holdsEnabled) {
         const hold = document.createElement("div");
         hold.id = id;
@@ -1337,6 +1358,7 @@ createNote = function(lane, noteSpeed, id, holdDuration) {
         if (lane != 1 && lane != lanes) if (!(lanes == 8 && (lane == 4 || lane == 5))) hold.style.backgroundColor = "rgb(0,209,255)";
         document.getElementById("notes").appendChild(hold);
         noteData.holdElement = hold;
+        noteData.holdDuration = holdDuration;
     }
     notes.push(noteData);
 };
