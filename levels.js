@@ -5,7 +5,12 @@ const setlist = [
   "Hello (BPM) 2024",
   "Aegleseeker",
   "Supernovae",
-  "Soulless 5"
+  "Soulless 5",
+  "Cyb-B",
+  "Rhythmic Maniac",
+  "Explumbergation",
+  "LoveShot",
+  "terMANIAtion"
 ];
 
 for (var song of setlist) {

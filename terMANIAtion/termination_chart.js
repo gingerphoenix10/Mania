@@ -22,17 +22,16 @@ for (var tick in level.notes) {
         if (!level.modchart[tick-mspbMult*2]) level.modchart[tick-mspbMult*2] = [];
         level.modchart[tick-mspbMult].push({
             type: "RunJSFile",
-            src: "levels/terMANIAtion/termination_warning.js"
+            src: ghProxy+"terMANIAtion/termination_warning.js"
         });
         level.modchart[tick-mspbMult*2].push({
             type: "RunJSFile",
-            src: "levels/terMANIAtion/termination_warning.js"
+            src: ghProxy+"terMANIAtion/termination_warning.js"
         });
     }
 }
 
 function indicatorLoop() {
-    
     if (playing) requestAnimationFrame(indicatorLoop);
 }
 indicatorLoop();

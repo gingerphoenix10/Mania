@@ -1403,8 +1403,8 @@ const CHART_Aegleseeker = {
                 }
             ],    
         },
-        song: "levels/Aegleseeker/song.mp3",
-        cover: "levels/Aegleseeker/cover.png",
+        song: ghProxy+"Aegleseeker/song.mp3",
+        cover: ghProxy+"Aegleseeker/cover.png",
         artist: "Silentroom",
         author: "gingerphoenix10",
         modchart: {
