@@ -1,4 +1,4 @@
-const ghProxy = "https://cdn.jsdelivr.net/gh/gingerphoenix10/Mania@main/";
+const ghProxy = "https://cdn.jsdelivr.net/gh/gingerphoenix10/Mania@dev0811251454/";
 
 const setlist = [
   "Clinozoisite",
